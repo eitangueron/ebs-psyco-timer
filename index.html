@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="he">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSYCHOMETRY ONLINE</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    
+    <link rel="stylesheet" href="./style.css">
+
+</head>
+
+<body>
+
+
+
+    <div class="controlls">
+        <h1 class="display-remain-time" id="actuall-time"></h1>
+        <br>
+        <p id="current-chapter-in-text" style="display: none;">
+            פרק <span id='current-chapter'>1</span> מתוך <span id='total-chapters'>8</span>
+        </p>
+        <p id='essay-chapter-in-text'>
+            פרק חיבור
+        </p>
+        <div id="control-buttons">
+
+            <a class="waves-effect waves-light btn button" disabled id="end-button">
+                <span>סיים</span>
+                <br>
+                <i class="material-icons" style="font-size: 2.3rem;">stop</i>
+            </a>
+
+            <a class="waves-effect waves-light btn button" id="pause" style="opacity: 1;">
+                <span id="pause-text">התחל</span>
+                <br>
+                <i class="material-icons icon" id="pause-icon" style="font-size: 2.3rem;">play_arrow</i>
+            </a>
+            
+            <a class="waves-effect waves-light btn button" disabled id="next-chapter-button">
+                <span>לפרק הבא</span>
+                <br>
+                <i class="material-icons" style="font-size: 2.3rem;">fast_forward</i>
+            </a>
+
+        </div>
+
+    </div>
+
+    <div id="container-for-style-controlers-chapter-essay">
+
+        <div id="controlers-of-chapter-essay">
+
+            <div id="controlers-of-with-essay">
+                <label>
+                    <input type="checkbox" checked="checked" class="filled-in" id="with-essay-toggle-btn"
+                        name="with-essay" />
+                    <span for="with-essay" id="controlers-of-with-essay-span">עם פרק חיבור</span>
+                </label>
+            </div>
+
+            <div id="contoler-chapter-ammount">
+                <select name="chapters-ammount" id="chapters-ammount-btn">
+                    <option value="8" class='chapter-amount-option'>8</option>
+                    <option value="7" class='chapter-amount-option'>7</option>
+                    <option value="6" class='chapter-amount-option'>6</option>
+                    <option value="5" class='chapter-amount-option'>5</option>
+                    <option value="4" class='chapter-amount-option'>4</option>
+                    <option value="3" class='chapter-amount-option'>3</option>
+                    <option value="2" class='chapter-amount-option'>2</option>
+                    <option value="1" class='chapter-amount-option'>1</option>
+                </select>
+                <span for="chapters-ammount" id="chapters-ammount-span">:מספר פרקים</span>
+            </div>
+
+
+            <di id="sound-check-box">
+                <i class="material-icons" style="font-size: 1.5rem; cursor: pointer; position: relative; top: 4px;"
+                    id="volume-icon">volume_up</i>
+                <span>בדיקת עוצמת שמע</span>
+            </di>
+
+        </div>
+
+    </div>
+
+    <audio id="end-chapter" src="https://static.wixstatic.com/mp3/84568c_b0c5c6dfeab14dbbb2c4f09e0eeee86d.mp3"></audio>
+    <audio id="5-more-mins" src="https://static.wixstatic.com/mp3/84568c_5c32ce91b9084c2e902f581d245e0d3d.mp3"></audio>
+    <audio id="end-test" src="https://static.wixstatic.com/mp3/84568c_942ff9a9ddd0468ab6c02de343e80418.mp3"></audio>
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script src="./main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="he">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSYCHOMETRY ONLINE</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <style>
+        .controlls {
+            text-align: center;
+        }
+
+        @font-face {
+            font-family: 'SuezOne-Regular';
+            src: url('./SuezOne-Regular.ttf');
+        }
+
+        * {
+            font-family: 'Varela Round', sans-serif;
+        }
+
+        h1 {
+            background-color: #0a1d2e;
+            color: white;
+            width: fit-content;
+            border-radius: 2%;
+            font-size: 10rem;
+            padding-right: 4%;
+            padding-left: 4%;
+            padding-top: 1%;
+            padding-bottom: 1%;
+            display: inline-block;
+        }
+
+        #controls-chapter-ammount-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        img {
+            height: 200px;
+            width: 200px;
+            position: absolute;
+            bottom: 1%;
+            left: 1%;
+        }
+
+        #controlers-of-chapter-essay {
+            display: grid;
+            grid-template-rows: repeat(3, 1fr);
+            margin-top: 6%;
+            /* width: '-webkit-fill-available'; */
+            width: fit-content;
+            margin-right: 3%;
+        }
+
+        #controlers-of-with-essay {
+            text-align: end;
+            margin-right: 2%;
+        }
+
+
+        #control-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            align-items: center;
+            justify-items: center;
+            margin-top: 2%;
+            margin-bottom: 1%;
+        }
+
+        .aves-effect {
+            height: fit-content;
+        }
+
+        #current-chapter-in-text,
+        #essay-chapter-in-text {
+            font-size: 2.5rem;
+            display: inline;
+        }
+
+        body {
+            background-color: #FBFBFB;
+        }
+
+        #chapters-ammount-span,
+        #controlers-of-with-essay-span {
+            font-size: 1.5rem;
+            color: black;
+        }
+
+        #chapters-ammount-btn {
+            width: 30%;
+            justify-self: end;
+            margin-right: -5%;
+            height: fit-content;
+            align-self: center;
+        }
+
+        #contoler-chapter-ammount {
+            text-align: end;
+            margin: 2%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            /* margin: 2%; */
+            margin-top: 0%;
+            /* width: 8%; */
+            justify-self: end;
+            width: 110%;
+        }
+
+        .dropdown-content li>span {
+            color: black;
+        }
+
+        select {
+            display: inline;
+        }
+
+        option {
+            text-align: center;
+        }
+
+        .button {
+            height: 75px;
+            width: 140px;
+            text-align: center;
+            background-color: #0a1d2e;
+            opacity: 0;
+            font-size: 1.5rem;
+            border-radius: 8%
+        }
+
+        .btn:hover {
+            background-color: #083563;
+        }
+
+        #sound-check-box {
+            justify-self: end;
+            font-size: 1.5rem;
+            margin: 2%;
+            /* margin-top: -2%; */
+        }
+
+        #container-for-style-controlers-chapter-essay {
+            display: grid;
+            justify-content: end;
+            grid-template-rows: 1fr;
+            margin-top: 3%;
+        }
+
+        /* #controlers-of-with-essay-span::after{
+            position: relative;
+            top: 1%;
+        } */
+
+        @media only screen and (max-width: 762px) {
+
+            #controlers-of-chapter-essay {
+                margin-top: 15%;
+                margin-right: 22.5px;
+                /* width: 100%; */
+            }
+
+            h1 {
+                font-size: 6rem;
+                padding-right: 5%;
+                padding-left: 5%;
+            }
+
+            #chapters-ammount-btn{
+                width: 40%;
+            }
+
+            img {
+                width: 50%;
+                left: 25%;
+            }
+
+            #control-buttons {
+                margin-top: 6%;
+            }
+
+            .button {
+                width: 100px;
+                font-size: 0.8rem;
+            }
+
+            .btn:hover {
+                background-color: #0a1d2e;
+            }
+
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+
+
+    <div class="controlls">
+        <h1 class="display-remain-time" id="actuall-time"></h1>
+        <br>
+        <p id="current-chapter-in-text" style="display: none;">
+            פרק <span id='current-chapter'>1</span> מתוך <span id='total-chapters'>8</span>
+        </p>
+        <p id='essay-chapter-in-text'>
+            פרק חיבור
+        </p>
+        <div id="control-buttons">
+
+            <a class="waves-effect waves-light btn button" disabled id="end-button">
+                <span>סיים</span>
+                <br>
+                <i class="material-icons" style="font-size: 2.3rem;">stop</i>
+            </a>
+
+            <a class="waves-effect waves-light btn button" id="pause" style="opacity: 1;">
+                <span id="pause-text">התחל</span>
+                <br>
+                <i class="material-icons icon" id="pause-icon" style="font-size: 2.3rem;">play_arrow</i>
+            </a>
+            
+            <a class="waves-effect waves-light btn button" disabled id="next-chapter-button">
+                <span>לפרק הבא</span>
+                <br>
+                <i class="material-icons" style="font-size: 2.3rem;">fast_forward</i>
+            </a>
+
+        </div>
+
+    </div>
+
+    <div id="container-for-style-controlers-chapter-essay">
+
+        <div id="controlers-of-chapter-essay">
+
+            <div id="controlers-of-with-essay">
+                <label>
+                    <input type="checkbox" checked="checked" class="filled-in" id="with-essay-toggle-btn"
+                        name="with-essay" />
+                    <span for="with-essay" id="controlers-of-with-essay-span">עם פרק חיבור</span>
+                </label>
+            </div>
+
+            <div id="contoler-chapter-ammount">
+                <select name="chapters-ammount" id="chapters-ammount-btn">
+                    <option value="8" class='chapter-amount-option'>8</option>
+                    <option value="7" class='chapter-amount-option'>7</option>
+                    <option value="6" class='chapter-amount-option'>6</option>
+                    <option value="5" class='chapter-amount-option'>5</option>
+                    <option value="4" class='chapter-amount-option'>4</option>
+                    <option value="3" class='chapter-amount-option'>3</option>
+                    <option value="2" class='chapter-amount-option'>2</option>
+                    <option value="1" class='chapter-amount-option'>1</option>
+                </select>
+                <span for="chapters-ammount" id="chapters-ammount-span">:מספר פרקים</span>
+            </div>
+
+
+            <di id="sound-check-box">
+                <i class="material-icons" style="font-size: 1.5rem; cursor: pointer; position: relative; top: 4px;"
+                    id="volume-icon">volume_up</i>
+                <span>בדיקת עוצמת שמע</span>
+            </di>
+
+        </div>
+
+    </div>
+
+    <audio id="end-chapter" src="https://static.wixstatic.com/mp3/84568c_b0c5c6dfeab14dbbb2c4f09e0eeee86d.mp3"></audio>
+    <audio id="5-more-mins" src="https://static.wixstatic.com/mp3/84568c_5c32ce91b9084c2e902f581d245e0d3d.mp3"></audio>
+    <audio id="end-test" src="https://static.wixstatic.com/mp3/84568c_942ff9a9ddd0468ab6c02de343e80418.mp3"></audio>
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+    <script>
+        let intervalTimer;
+        let timeLeft;
+        let isPaused = false;
+        let isStarted = false;
+
+
+        let chaptersAmmount = 8
+        let chaptersBySeconds = [60 * 30, 60 * 20, 60 * 20, 60 * 20, 60 * 20, 60 * 20, 60 * 20, 60 * 20, 60 * 20] //final 
+        // let chaptersBySeconds = [15, 10, 10, 10, 10, 10, 10, 10, 10] //test
+        let withEssay = true
+        let currentChapter = 0
+        let wholeTime = chaptersBySeconds[currentChapter]; // manage this to set the whole time 
+
+
+        function displayTimeLeft(timeLeft) { //displays time on the input 
+            if (timeLeft >= 0) {
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                minutes < 0 ? minutes = 0 : null
+                seconds < 0 ? seconds = 0 : null
+                let displayString = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                displayOutput.textContent = displayString;
+                // console.log(timeLeft)
+            } else {
+                // displayTimeLeft(chaptersBySeconds[currentChapter+1])
+                displayOutput.textContent = '00:00'
+            }
+            // update(timeLeft, wholeTime);
+        }
+
+        //audios:
+        const endTestSound = document.getElementById('end-test');
+        const fiveMinsToEndChapter = document.getElementById('5-more-mins');
+        const endChapter = document.getElementById('end-chapter');
+
+        //controls:
+        const displayOutput = document.querySelector('.display-remain-time')
+        const pauseBtn = document.getElementById('pause');
+
+        //settings buttons (chapter and with or without essay):
+        const chaptersAmmountBtn = document.getElementById('chapters-ammount-btn');
+        const essayToggleBtn = document.getElementById('with-essay-toggle-btn');
+
+
+        const totalChaptersInText = document.getElementById('total-chapters');
+        const currentChapterInTextDisplayed = document.getElementById('current-chapter-in-text');
+        const essayChapterInTextDisplayed = document.getElementById('essay-chapter-in-text');
+
+        // toggles between which p tag to display with numbers chapters or essay one
+        const toggleDisplayChapterInTextOrEssay = (showEssay) => {
+            if (showEssay) {
+                currentChapterInTextDisplayed.style.display = "none";
+                essayChapterInTextDisplayed.style.display = 'inline';
+            } else {
+                currentChapterInTextDisplayed.style.display = "inline";
+                essayChapterInTextDisplayed.style.display = 'none';
+            }
+        }
+
+        //able/disable all changes while clock running
+        const toggleDisableChangesWhileClockRuning = () => {
+            chaptersAmmountBtn.disabled = !chaptersAmmountBtn.disabled;
+            essayToggleBtn.disabled = !essayToggleBtn.disabled;
+            volumeIcon.style.color = '#949494'
+            volumeIcon.style.cursor = 'not-allowed'
+            essayVMark.style.cursor = 'not-allowed'
+            controlersEssaySpan.style.cursor = 'not-allowed'
+            chaptersAmmountBtn.style.cursor = 'not-allowed'
+        }
+
+        //changes what current chapter are we in that is displayed in text 
+        const changeChapterDisplayedInText = () => {
+            let curChapter = document.getElementById('current-chapter')
+            if (withEssay) {
+                toggleDisplayChapterInTextOrEssay(false)
+                curChapter.textContent = currentChapter
+                if (currentChapter === 0) { //bug fix for when withessay ends and next run is without essay
+                    curChapter.textContent = currentChapter + 1
+                }
+            } else {
+                curChapter.textContent = currentChapter + 1
+            }
+        }
+
+        // end test and rest all 
+        const endButton = document.getElementById('end-button');
+        endButton.addEventListener('click', () => {
+            clearInterval(intervalTimer);
+            isPaused = !isPaused
+            let sure = confirm('האם אתה בטוח שברצונך לסיים?')
+            if (sure) {
+                resetAll()
+            } else {
+                timer(timeLeft);
+                isPaused = !isPaused
+            }
+        })
+
+        // skip to next chapter - works only affter stating (will b displayed only during play on)
+        const nextChapterButton = document.getElementById('next-chapter-button');
+
+        const advanceToNextChapter = () => {
+            if (isStarted) {
+                currentChapter++
+                wholeTime = chaptersBySeconds[currentChapter]
+                if (wholeTime) {
+                    changeChapterDisplayedInText()
+                    displayTimeLeft(wholeTime);
+                    let remainTime = Date.now() + (wholeTime * 1000);
+                    timeLeft = Math.round((remainTime - Date.now()) / 1000);
+
+                    if (!isPaused) {
+                        clearInterval(intervalTimer);
+                        timer(wholeTime)
+                    }
+                }
+
+            }
+        }
+
+        nextChapterButton.addEventListener('click', advanceToNextChapter)
+
+
+        const pauseButtonIcon = document.getElementById('pause-icon');
+        const pauseButtonText = document.getElementById('pause-text');
+        const timeDisplayed = document.getElementById('actuall-time');
+        // const soundCheckBox = document.getElementById('sound-check-box');
+        const volumeIcon = document.getElementById('volume-icon');
+        const essayVMark = document.getElementById('controlers-of-with-essay');
+        const controlersEssayChapterBox = document.getElementById('controlers-of-chapter-essay');
+        const controlersEssaySpan = document.getElementById('controlers-of-with-essay-span');
+
+        const resetAll = () => {
+            clearInterval(intervalTimer);
+            toggleDisableChangesWhileClockRuning()
+            currentChapter = 0
+            wholeTime = chaptersBySeconds[currentChapter]
+            changeChapterDisplayedInText()
+            toggleDisplayChapterInTextOrEssay(withEssay)
+            isStarted = false
+            isPaused = false
+            pauseButtonText.textContent = 'התחל'
+            pauseButtonIcon.textContent = 'play_arrow'
+            endButton.setAttribute("disabled", "true")
+            nextChapterButton.setAttribute("disabled", "true")
+            endButton.style.opacity = 0
+            nextChapterButton.style.opacity = 0
+            timeDisplayed.style.color = 'white'
+            volumeIcon.style.color = 'black'
+            volumeIcon.style.cursor = 'pointer'
+            essayVMark.style.cursor = 'pointer'
+            controlersEssaySpan.style.cursor = 'pointer'
+            chaptersAmmountBtn.style.cursor = 'default'
+            controlersEssayChapterBox.style.cursor = 'default'
+            timeLeft = wholeTime
+            displayTimeLeft(wholeTime);
+        }
+
+
+        // change how many chapter will b a full test:
+        chaptersAmmountBtn.addEventListener("change", (event) => {
+            chaptersAmmount = chaptersAmmountBtn.value
+            withEssay ? chaptersBySeconds = [60 * 30] : chaptersBySeconds = [] //final
+            // withEssay ? chaptersBySeconds = [15] : chaptersBySeconds = [] //test
+            for (let i = 0; i < chaptersAmmount; i++) {
+                chaptersBySeconds.push(20 * 60) //final
+                // chaptersBySeconds.push(10) //test
+            }
+            totalChaptersInText.textContent = chaptersAmmount
+        })
+
+
+        // add or remove essay from structure:
+        essayToggleBtn.addEventListener('click', () => {
+            if (withEssay) {
+                withEssay = false
+                chaptersBySeconds.shift()
+                wholeTime = chaptersBySeconds[currentChapter]
+                displayTimeLeft(wholeTime);
+            } else {
+                withEssay = true
+                chaptersBySeconds.unshift(60 * 30) //final
+                // chaptersBySeconds.unshift(15) //test
+                wholeTime = chaptersBySeconds[currentChapter]
+                displayTimeLeft(wholeTime);
+            }
+            toggleDisplayChapterInTextOrEssay(withEssay)
+        })
+
+        // voulume test:
+        volumeIcon.addEventListener('click', () => {
+            if (!isStarted) {
+                endChapter.play()
+            }
+        })
+
+
+        //main play
+        function timer(seconds) { //counts time, takes seconds
+            let remainTime = Date.now() + (seconds * 1000);
+            displayTimeLeft(seconds);
+            intervalTimer = setInterval(function () {
+                timeLeft = Math.round((remainTime - Date.now()) / 1000);
+                // if (timeLeft === 5) { // 5 mins to end of chapter           //test
+                if (timeLeft === 300) { // 5 mins to end of chapter           //final
+                    fiveMinsToEndChapter.play()
+                } else if (timeLeft === 0 && chaptersBySeconds[currentChapter + 1]) {
+                    endChapter.play()
+                } else if (timeLeft < 0) { //chapter done  
+                    currentChapter++
+                    wholeTime = chaptersBySeconds[currentChapter]
+                    if (wholeTime) { //check if there is another chapter or if all test done
+                        endChapter.play()
+                        if (timeLeft === -1) {
+                            changeChapterDisplayedInText()
+                        }
+                        displayTimeLeft(wholeTime);
+                        clearInterval(intervalTimer);
+                        timer(wholeTime)
+                        return
+                    } else { //test done + reset
+                        endTestSound.play()
+                        resetAll()
+                        return
+                    }
+                }
+                if (isNaN(timeLeft) || isNaN(seconds)) { //against is NaN bug
+                    alert('נתקלנו בבעיה, אנא צור קשר עם הנלהלת האתר ולחץ רענן')
+                    location.reload();
+                }
+                displayTimeLeft(timeLeft);
+            }, 1000);
+        }
+
+        //pause feature
+        function pauseTimer(event) {
+            if (isStarted === false) { //play
+                toggleDisableChangesWhileClockRuning()
+                timer(wholeTime);
+                isStarted = true;
+                pauseButtonText.textContent = 'השהה'
+                pauseButtonIcon.textContent = 'pause'
+                endButton.disabled = !endButton.disabled;
+                endButton.removeAttribute("disabled")
+                nextChapterButton.removeAttribute("disabled")
+                nextChapterButton.style.opacity = 1
+                endButton.style.opacity = 1
+                controlersEssayChapterBox.style.cursor = 'not-allowed'
+            } else if (isPaused) { //continue  
+                pauseButtonText.textContent = 'השהה'
+                pauseButtonIcon.textContent = 'pause'
+                if (timeLeft >= 0) {
+                    timer(timeLeft);
+                } else {
+                    clearInterval(intervalTimer);
+                    timer(wholeTime)
+                }
+                isPaused = !isPaused
+                timeDisplayed.style.color = 'white'
+            } else { //pause
+                pauseButtonText.textContent = 'המשך'
+                pauseButtonIcon.textContent = 'play_arrow'
+                clearInterval(intervalTimer);
+                isPaused = !isPaused
+                timeDisplayed.style.color = '#ff5e57'
+            }
+        }
+
+
+        displayTimeLeft(wholeTime);
+        //start clock btn
+        pauseBtn.addEventListener('click', pauseTimer);
+        //spacebar or enter clicks
+        document.body.onkeyup = function (e) {
+            if (e.keyCode == 32 || e.keyCode == 13) {
+                pauseTimer()
+            }
+        };
+    </script>
+
+
+</body>
+
+</html>
