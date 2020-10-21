@@ -5,8 +5,8 @@ let isStarted = false;
 
 
 let chaptersAmmount = 8
-let chaptersBySeconds = [60 * 30, 60 * 20, 60 * 20, 60 * 20, 60 * 20, 60 * 20, 60 * 20, 60 * 20, 60 * 20] //final 
-// let chaptersBySeconds = [15, 10, 10, 10, 10, 10, 10, 10, 10] //test
+// let chaptersBySeconds = [60 * 30, 60 * 20, 60 * 20, 60 * 20, 60 * 20, 60 * 20, 60 * 20, 60 * 20, 60 * 20] //final 
+let chaptersBySeconds = [15, 10, 10, 10, 10, 10, 10, 10, 10] //test
 let withEssay = true
 let currentChapter = 0
 let wholeTime = chaptersBySeconds[currentChapter]; // manage this to set the whole time 
@@ -120,6 +120,8 @@ const advanceToNextChapter = () => {
 
 nextChapterButton.addEventListener('click', advanceToNextChapter)
 
+const finishButtonText = document.getElementById('finish-btn-span')
+const finishButtonIcon = document.getElementById('stop-btn-icon')
 
 const pauseButtonIcon = document.getElementById('pause-icon');
 const pauseButtonText = document.getElementById('pause-text');
@@ -154,17 +156,21 @@ const resetAll = () => {
     controlersEssayChapterBox.style.cursor = 'default'
     timeLeft = wholeTime
     displayTimeLeft(wholeTime);
+    fireWorksOff()
+    unableButtons()
+    finishButtonText.textContent = 'סיים'
+    finishButtonIcon.textContent = 'stop'
 }
 
 
 // change how many chapter will b a full test:
 chaptersAmmountBtn.addEventListener("change", (event) => {
     chaptersAmmount = chaptersAmmountBtn.value
-    withEssay ? chaptersBySeconds = [60 * 30] : chaptersBySeconds = [] //final
-    // withEssay ? chaptersBySeconds = [15] : chaptersBySeconds = [] //test
+    // withEssay ? chaptersBySeconds = [60 * 30] : chaptersBySeconds = [] //final
+    withEssay ? chaptersBySeconds = [15] : chaptersBySeconds = [] //test
     for (let i = 0; i < chaptersAmmount; i++) {
-        chaptersBySeconds.push(20 * 60) //final
-        // chaptersBySeconds.push(10) //test
+        // chaptersBySeconds.push(20 * 60) //final
+        chaptersBySeconds.push(10) //test
     }
     totalChaptersInText.textContent = chaptersAmmount
 })
@@ -179,8 +185,8 @@ essayToggleBtn.addEventListener('click', () => {
         displayTimeLeft(wholeTime);
     } else {
         withEssay = true
-        chaptersBySeconds.unshift(60 * 30) //final
-        // chaptersBySeconds.unshift(15) //test
+        // chaptersBySeconds.unshift(60 * 30) //final
+        chaptersBySeconds.unshift(15) //test
         wholeTime = chaptersBySeconds[currentChapter]
         displayTimeLeft(wholeTime);
     }
@@ -194,13 +200,36 @@ volumeIcon.addEventListener('click', () => {
     }
 })
 
+const disableButtons = () => {
+    pauseBtn.classList.add('disabled')
+    nextChapterButton.classList.add('disabled')
+}
+
+const unableButtons = () => {
+    pauseBtn.classList.remove('disabled')
+    nextChapterButton.classList.remove('disabled')
+}
+
+
+const fireWorksBox = document.getElementById('fire-works-box')
+const fireWorksOn = () => {
+    fireWorksBox.classList.add("pyro")
+}
+const fireWorksOff = () => {
+    fireWorksBox.classList.remove("pyro")
+}
 
 //main play
 function timer(seconds) { //counts time, takes seconds
-    let remainTime = Date.now() + (seconds * 1000);
+    // let remainTime = Date.now() + (seconds * 1000);
+    // let remainTime = seconds
+    timeLeft = seconds
     displayTimeLeft(seconds);
     intervalTimer = setInterval(function () {
-        timeLeft = Math.round((remainTime - Date.now()) / 1000);
+        timeLeft = timeLeft - 1
+        // timeLeft = Math.round((remainTime - Date.now()) / 1000);
+
+
         // if (timeLeft === 5) { // 5 mins to end of chapter           //test
         if (timeLeft === 300) { // 5 mins to end of chapter           //final
             fiveMinsToEndChapter.play()
@@ -220,7 +249,13 @@ function timer(seconds) { //counts time, takes seconds
                 return
             } else { //test done + reset
                 endTestSound.play()
-                resetAll()
+                fireWorksOn()
+                // alert('congrats done')
+                clearInterval(intervalTimer)
+                disableButtons()
+                finishButtonText.textContent = 'רענן'
+                finishButtonIcon.textContent = 'refresh'
+                // resetAll()
                 return
             }
         }
@@ -228,7 +263,9 @@ function timer(seconds) { //counts time, takes seconds
             alert('נתקלנו בבעיה, אנא צור קשר עם הנלהלת האתר ולחץ רענן')
             location.reload();
         }
+
         displayTimeLeft(timeLeft);
+
     }, 1000);
 }
 
