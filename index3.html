@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="he">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSYCHOMETRY ONLINE</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- <link rel="stylesheet" href="./style.css"> -->
+
+</head>
+
+<body>
+
+    <div id="fire-works-box" style="display: inline;">
+        <div class="before"></div>
+        <div class="after"></div>
+    </div>
+
+    <div class="controlls">
+        <h1 class="display-remain-time" id="actuall-time"></h1>
+        <br>
+        <p id="current-chapter-in-text" style="display: none;">
+            פרק <span id='current-chapter'>1</span> מתוך <span id='total-chapters'>8</span>
+        </p>
+        <p id='essay-chapter-in-text'>
+            פרק חיבור
+        </p>
+        <div id="control-buttons">
+
+            <a class="waves-effect waves-light btn button" disabled id="end-button">
+                <span id="finish-btn-span">סיים</span>
+                <br>
+                <i class="material-icons" style="font-size: 2.3rem;" id="stop-btn-icon">stop</i>
+            </a>
+
+            <a class="waves-effect waves-light btn button" id="pause" style="opacity: 1;">
+                <span id="pause-text">התחל</span>
+                <br>
+                <i class="material-icons icon" id="pause-icon" style="font-size: 2.3rem;">play_arrow</i>
+            </a>
+
+            <a class="waves-effect waves-light btn button" disabled id="next-chapter-button">
+                <span>לפרק הבא</span>
+                <br>
+                <i class="material-icons" style="font-size: 2.3rem;">fast_forward</i>
+            </a>
+
+        </div>
+
+    </div>
+
+    <div id="container-for-style-controlers-chapter-essay">
+
+        <div id="controlers-of-chapter-essay">
+
+            <div id="controlers-of-with-essay">
+                <label>
+                    <input type="checkbox" checked="checked" class="filled-in" id="with-essay-toggle-btn"
+                        name="with-essay" />
+                    <span for="with-essay" id="controlers-of-with-essay-span">עם פרק חיבור</span>
+                </label>
+            </div>
+
+            <div id="contoler-chapter-ammount">
+                <select name="chapters-ammount" id="chapters-ammount-btn">
+                    <option value="8" class='chapter-amount-option'>8</option>
+                    <option value="7" class='chapter-amount-option'>7</option>
+                    <option value="6" class='chapter-amount-option'>6</option>
+                    <option value="5" class='chapter-amount-option'>5</option>
+                    <option value="4" class='chapter-amount-option'>4</option>
+                    <option value="3" class='chapter-amount-option'>3</option>
+                    <option value="2" class='chapter-amount-option'>2</option>
+                    <option value="1" class='chapter-amount-option'>1</option>
+                </select>
+                <span for="chapters-ammount" id="chapters-ammount-span">:מספר פרקים</span>
+            </div>
+
+
+            <div id="sound-check-box">
+                <i class="material-icons" style="font-size: 1.5rem; cursor: pointer; position: relative; top: 4px;"
+                    id="volume-icon">volume_up</i>
+                <span>בדיקת עוצמת שמע</span>
+            </div>
+
+
+            <div id="change-clock-type-box">
+                <label>
+                    <input type="checkbox" checked="checked" class="filled-in" id="change-clock-type-btn"
+                        name="with-essay" />
+                    <span for="with-essay" id="change-clock-type-span">זמן עולה</span>
+                </label>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <audio id="end-chapter" src="https://static.wixstatic.com/mp3/84568c_b0c5c6dfeab14dbbb2c4f09e0eeee86d.mp3"></audio>
+    <audio id="5-more-mins" src="https://static.wixstatic.com/mp3/84568c_5c32ce91b9084c2e902f581d245e0d3d.mp3"></audio>
+    <audio id="end-test" src="https://static.wixstatic.com/mp3/84568c_942ff9a9ddd0468ab6c02de343e80418.mp3"></audio>
+
+    <!-- fire works css -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: white overflow: hidden;
+        }
+
+        .pyro>.before,
+        .pyro>.after {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            box-shadow: -120px -218.66667px blue, 248px -16.66667px #00ff84, 190px 16.33333px #002bff, -113px -308.66667px #ff009d, -109px -287.66667px #ffb300, -50px -313.66667px #ff006e, 226px -31.66667px #ff4000, 180px -351.66667px #ff00d0, -12px -338.66667px #00f6ff, 220px -388.66667px #99ff00, -69px -27.66667px #ff0400, -111px -339.66667px #6200ff, 155px -237.66667px #00ddff, -152px -380.66667px #00ffd0, -50px -37.66667px #00ffdd, -95px -175.66667px #a6ff00, -88px 10.33333px #0d00ff, 112px -309.66667px #005eff, 69px -415.66667px #ff00a6, 168px -100.66667px #ff004c, -244px 24.33333px #ff6600, 97px -325.66667px #ff0066, -211px -182.66667px #00ffa2, 236px -126.66667px #b700ff, 140px -196.66667px #9000ff, 125px -175.66667px #00bbff, 118px -381.66667px #ff002f, 144px -111.66667px #ffae00, 36px -78.66667px #f600ff, -63px -196.66667px #c800ff, -218px -227.66667px #d4ff00, -134px -377.66667px #ea00ff, -36px -412.66667px #ff00d4, 209px -106.66667px #00fff2, 91px -278.66667px #000dff, -22px -191.66667px #9dff00, 139px -392.66667px #a6ff00, 56px -2.66667px #0099ff, -156px -276.66667px #ea00ff, -163px -233.66667px #00fffb, -238px -346.66667px #00ff73, 62px -363.66667px #0088ff, 244px -170.66667px #0062ff, 224px -142.66667px #b300ff, 141px -208.66667px #9000ff, 211px -285.66667px #ff6600, 181px -128.66667px #1e00ff, 90px -123.66667px #c800ff, 189px 70.33333px #00ffc8, -18px -383.66667px #00ff33, 100px -6.66667px #ff008c;
+            -moz-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+            -webkit-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+            -o-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+            -ms-animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+            animation: 1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards;
+        }
+
+        .pyro>.after {
+            -moz-animation-delay: 1.25s, 1.25s, 1.25s;
+            -webkit-animation-delay: 1.25s, 1.25s, 1.25s;
+            -o-animation-delay: 1.25s, 1.25s, 1.25s;
+            -ms-animation-delay: 1.25s, 1.25s, 1.25s;
+            animation-delay: 1.25s, 1.25s, 1.25s;
+            -moz-animation-duration: 1.25s, 1.25s, 6.25s;
+            -webkit-animation-duration: 1.25s, 1.25s, 6.25s;
+            -o-animation-duration: 1.25s, 1.25s, 6.25s;
+            -ms-animation-duration: 1.25s, 1.25s, 6.25s;
+            animation-duration: 1.25s, 1.25s, 6.25s;
+        }
+
+        @-webkit-keyframes bang {
+            from {
+                box-shadow: 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white;
+            }
+        }
+
+        @-moz-keyframes bang {
+            from {
+                box-shadow: 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white;
+            }
+        }
+
+        @-o-keyframes bang {
+            from {
+                box-shadow: 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white;
+            }
+        }
+
+        @-ms-keyframes bang {
+            from {
+                box-shadow: 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white;
+            }
+        }
+
+        @keyframes bang {
+            from {
+                box-shadow: 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white;
+            }
+        }
+
+        @-webkit-keyframes gravity {
+            to {
+                transform: translateY(200px);
+                -moz-transform: translateY(200px);
+                -webkit-transform: translateY(200px);
+                -o-transform: translateY(200px);
+                -ms-transform: translateY(200px);
+                opacity: 0;
+            }
+        }
+
+        @-moz-keyframes gravity {
+            to {
+                transform: translateY(200px);
+                -moz-transform: translateY(200px);
+                -webkit-transform: translateY(200px);
+                -o-transform: translateY(200px);
+                -ms-transform: translateY(200px);
+                opacity: 0;
+            }
+        }
+
+        @-o-keyframes gravity {
+            to {
+                transform: translateY(200px);
+                -moz-transform: translateY(200px);
+                -webkit-transform: translateY(200px);
+                -o-transform: translateY(200px);
+                -ms-transform: translateY(200px);
+                opacity: 0;
+            }
+        }
+
+        @-ms-keyframes gravity {
+            to {
+                transform: translateY(200px);
+                -moz-transform: translateY(200px);
+                -webkit-transform: translateY(200px);
+                -o-transform: translateY(200px);
+                -ms-transform: translateY(200px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes gravity {
+            to {
+                transform: translateY(200px);
+                -moz-transform: translateY(200px);
+                -webkit-transform: translateY(200px);
+                -o-transform: translateY(200px);
+                -ms-transform: translateY(200px);
+                opacity: 0;
+            }
+        }
+
+        @-webkit-keyframes position {
+
+            0%,
+            19.9% {
+                margin-top: 10%;
+                margin-left: 40%;
+            }
+
+            20%,
+            39.9% {
+                margin-top: 40%;
+                margin-left: 30%;
+            }
+
+            40%,
+            59.9% {
+                margin-top: 20%;
+                margin-left: 70%;
+            }
+
+            60%,
+            79.9% {
+                margin-top: 30%;
+                margin-left: 20%;
+            }
+
+            80%,
+            99.9% {
+                margin-top: 30%;
+                margin-left: 80%;
+            }
+        }
+
+        @-moz-keyframes position {
+
+            0%,
+            19.9% {
+                margin-top: 10%;
+                margin-left: 40%;
+            }
+
+            20%,
+            39.9% {
+                margin-top: 40%;
+                margin-left: 30%;
+            }
+
+            40%,
+            59.9% {
+                margin-top: 20%;
+                margin-left: 70%;
+            }
+
+            60%,
+            79.9% {
+                margin-top: 30%;
+                margin-left: 20%;
+            }
+
+            80%,
+            99.9% {
+                margin-top: 30%;
+                margin-left: 80%;
+            }
+        }
+
+        @-o-keyframes position {
+
+            0%,
+            19.9% {
+                margin-top: 10%;
+                margin-left: 40%;
+            }
+
+            20%,
+            39.9% {
+                margin-top: 40%;
+                margin-left: 30%;
+            }
+
+            40%,
+            59.9% {
+                margin-top: 20%;
+                margin-left: 70%;
+            }
+
+            60%,
+            79.9% {
+                margin-top: 30%;
+                margin-left: 20%;
+            }
+
+            80%,
+            99.9% {
+                margin-top: 30%;
+                margin-left: 80%;
+            }
+        }
+
+        @-ms-keyframes position {
+
+            0%,
+            19.9% {
+                margin-top: 10%;
+                margin-left: 40%;
+            }
+
+            20%,
+            39.9% {
+                margin-top: 40%;
+                margin-left: 30%;
+            }
+
+            40%,
+            59.9% {
+                margin-top: 20%;
+                margin-left: 70%;
+            }
+
+            60%,
+            79.9% {
+                margin-top: 30%;
+                margin-left: 20%;
+            }
+
+            80%,
+            99.9% {
+                margin-top: 30%;
+                margin-left: 80%;
+            }
+        }
+
+        @keyframes position {
+
+            0%,
+            19.9% {
+                margin-top: 10%;
+                margin-left: 40%;
+            }
+
+            20%,
+            39.9% {
+                margin-top: 40%;
+                margin-left: 30%;
+            }
+
+            40%,
+            59.9% {
+                margin-top: 20%;
+                margin-left: 70%;
+            }
+
+            60%,
+            79.9% {
+                margin-top: 30%;
+                margin-left: 20%;
+            }
+
+            80%,
+            99.9% {
+                margin-top: 30%;
+                margin-left: 80%;
+            }
+        }
+    </style>
+
+    <style>
+        .controlls {
+            text-align: center;
+        }
+
+        @font-face {
+            font-family: 'SuezOne-Regular';
+            src: url('./SuezOne-Regular.ttf');
+        }
+
+        * {
+            font-family: 'Varela Round', sans-serif;
+        }
+
+        h1 {
+            background-color: #0a1d2e;
+            color: white;
+            width: fit-content;
+            border-radius: 2%;
+            font-size: 10rem;
+            padding-right: 4%;
+            padding-left: 4%;
+            padding-top: 1%;
+            padding-bottom: 1%;
+            display: inline-block;
+        }
+
+        #controls-chapter-ammount-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        img {
+            height: 200px;
+            width: 200px;
+            position: absolute;
+            bottom: 1%;
+            left: 1%;
+        }
+
+        #controlers-of-chapter-essay {
+            display: grid;
+            grid-template-rows: repeat(4, 1fr);
+            margin-top: 6%;
+            /* width: '-webkit-fill-available'; */
+            width: fit-content;
+            margin-right: 3%;
+        }
+
+        #controlers-of-with-essay,
+        #change-clock-type-span {
+            text-align: end;
+            margin-right: 2%;
+        }
+
+        #change-clock-type-box {
+            text-align: end;
+            margin-top: 2%;
+        }
+
+
+        #control-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            align-items: center;
+            justify-items: center;
+            margin-top: 2%;
+            margin-bottom: 1%;
+        }
+
+        .aves-effect {
+            height: fit-content;
+        }
+
+        #current-chapter-in-text,
+        #essay-chapter-in-text {
+            font-size: 2.5rem;
+            display: inline;
+        }
+
+        body {
+            background-color: #FBFBFB;
+        }
+
+        #chapters-ammount-span,
+        #controlers-of-with-essay-span,
+        #change-clock-type-span {
+            font-size: 1.5rem;
+            color: black;
+        }
+
+        #chapters-ammount-btn {
+            width: 30%;
+            justify-self: end;
+            margin-right: -5%;
+            height: fit-content;
+            align-self: center;
+        }
+
+        #contoler-chapter-ammount {
+            text-align: end;
+            margin: 2%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            /* margin: 2%; */
+            margin-top: 0%;
+            /* width: 8%; */
+            justify-self: end;
+            width: 110%;
+        }
+
+        .dropdown-content li>span {
+            color: black;
+        }
+
+        select {
+            display: inline;
+        }
+
+        option {
+            text-align: center;
+        }
+
+        .button {
+            height: 75px;
+            width: 140px;
+            text-align: center;
+            background-color: #0a1d2e;
+            opacity: 0;
+            font-size: 1.5rem;
+            border-radius: 8%
+        }
+
+        .btn:hover {
+            background-color: #083563;
+        }
+
+        #sound-check-box {
+            justify-self: end;
+            font-size: 1.5rem;
+            margin: 2%;
+            /* margin-top: -2%; */
+        }
+
+        #container-for-style-controlers-chapter-essay {
+            display: grid;
+            justify-content: end;
+            grid-template-rows: 1fr;
+            margin-top: 3%;
+        }
+
+        @media only screen and (max-width: 762px) {
+
+            #controlers-of-chapter-essay {
+                margin-top: 15%;
+                margin-right: 22.5px;
+                /* width: 100%; */
+            }
+
+            h1 {
+                font-size: 6rem;
+                padding-right: 5%;
+                padding-left: 5%;
+            }
+
+            #chapters-ammount-btn {
+                width: 40%;
+            }
+
+            img {
+                width: 50%;
+                left: 25%;
+            }
+
+            #control-buttons {
+                margin-top: 6%;
+            }
+
+            .button {
+                width: 100px;
+                font-size: 0.8rem;
+            }
+
+            .btn:hover {
+                background-color: #0a1d2e;
+            }
+
+        }
+    </style>
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <Script>
+        let intervalTimer;
+        let timeLeft;
+        let isPaused = false;
+        let isStarted = false;
+
+
+        let chaptersAmmount = 8
+        // let chaptersBySeconds = [60 * 30, 60 * 20, 60 * 20, 60 * 20, 60 * 20, 60 * 20, 60 * 20, 60 * 20, 60 * 20] //final 
+        let chaptersBySeconds = [15, 10, 10, 10, 10, 10, 10, 10, 10] //test
+        let withEssay = true
+        let currentChapter = 0
+        let wholeTime = chaptersBySeconds[currentChapter]; // manage this to set the whole time 
+        let clockType = 'ascending'
+        // const clockType = 'descending'
+
+
+        function displayTimeLeft(timeLeft) { //displays time on the input 
+            if (timeLeft >= 0) {
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                minutes < 0 ? minutes = 0 : null
+                seconds < 0 ? seconds = 0 : null
+                let displayString = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                displayOutput.textContent = displayString;
+                // console.log(timeLeft)
+            } else {
+                // displayTimeLeft(chaptersBySeconds[currentChapter+1])
+                displayOutput.textContent = '00:00'
+            }
+            // update(timeLeft, wholeTime);
+        }
+
+        //audios:
+        const endTestSound = document.getElementById('end-test');
+        const fiveMinsToEndChapter = document.getElementById('5-more-mins');
+        const endChapter = document.getElementById('end-chapter');
+
+        //controls:
+        const displayOutput = document.querySelector('.display-remain-time')
+        const pauseBtn = document.getElementById('pause');
+
+        //settings buttons (chapter and with or without essay):
+        const chaptersAmmountBtn = document.getElementById('chapters-ammount-btn');
+        const essayToggleBtn = document.getElementById('with-essay-toggle-btn');
+
+
+        const totalChaptersInText = document.getElementById('total-chapters');
+        const currentChapterInTextDisplayed = document.getElementById('current-chapter-in-text');
+        const essayChapterInTextDisplayed = document.getElementById('essay-chapter-in-text');
+        const changeClockTypeButton = document.getElementById('change-clock-type-btn');
+        const changeClockTypeSpan = document.getElementById('change-clock-type-span');
+
+        // toggles between which p tag to display with numbers chapters or essay one
+        const toggleDisplayChapterInTextOrEssay = (showEssay) => {
+            if (showEssay) {
+                currentChapterInTextDisplayed.style.display = "none";
+                essayChapterInTextDisplayed.style.display = 'inline';
+            } else {
+                currentChapterInTextDisplayed.style.display = "inline";
+                essayChapterInTextDisplayed.style.display = 'none';
+            }
+        }
+
+        //able/disable all changes while clock running
+        const toggleDisableChangesWhileClockRuning = () => {
+            chaptersAmmountBtn.disabled = !chaptersAmmountBtn.disabled;
+            changeClockTypeButton.disabled = !changeClockTypeButton.disabled;
+            essayToggleBtn.disabled = !essayToggleBtn.disabled;
+            volumeIcon.style.color = '#949494'
+            volumeIcon.style.cursor = 'not-allowed'
+            essayVMark.style.cursor = 'not-allowed'
+            controlersEssaySpan.style.cursor = 'not-allowed'
+            chaptersAmmountBtn.style.cursor = 'not-allowed'
+            changeClockTypeSpan.style.cursor = 'not-allowed'
+        }
+
+        //changes what current chapter are we in that is displayed in text 
+        const changeChapterDisplayedInText = () => {
+            let curChapter = document.getElementById('current-chapter')
+            if (withEssay) {
+                toggleDisplayChapterInTextOrEssay(false)
+                curChapter.textContent = currentChapter
+                if (currentChapter === 0) { //bug fix for when withessay ends and next run is without essay
+                    curChapter.textContent = currentChapter + 1
+                }
+            } else {
+                curChapter.textContent = currentChapter + 1
+            }
+        }
+
+        // end test and rest all 
+        const endButton = document.getElementById('end-button');
+        endButton.addEventListener('click', () => {
+            clearInterval(intervalTimer);
+            isPaused = !isPaused
+            let sure = confirm('האם אתה בטוח שברצונך לסיים?')
+            if (sure) {
+                resetAll()
+            } else {
+                clockType === 'ascending' ? timerAscending() : timerDescending(timeLeft)
+                // timer(timeLeft);
+                isPaused = !isPaused
+            }
+        })
+
+        // skip to next chapter - works only affter stating (will b displayed only during play on)
+        const nextChapterButton = document.getElementById('next-chapter-button');
+
+        const advanceToNextChapter = () => {
+            if (isStarted) {
+                currentChapter++
+                wholeTime = chaptersBySeconds[currentChapter]
+                if (wholeTime) {
+                    changeChapterDisplayedInText()
+                    displayTimeLeft(wholeTime);
+                    let remainTime = Date.now() + (wholeTime * 1000);
+                    timeLeft = Math.round((remainTime - Date.now()) / 1000);
+
+                    if (!isPaused) {
+                        clearInterval(intervalTimer);
+                        clockType === 'ascending' ? timerAscending(0) : timerDescending(wholeTime)
+                        // timer(wholeTime)
+                    }
+                }
+
+            }
+        }
+
+        nextChapterButton.addEventListener('click', advanceToNextChapter)
+
+        const finishButtonText = document.getElementById('finish-btn-span')
+        const finishButtonIcon = document.getElementById('stop-btn-icon')
+
+        const pauseButtonIcon = document.getElementById('pause-icon');
+        const pauseButtonText = document.getElementById('pause-text');
+        const timeDisplayed = document.getElementById('actuall-time');
+        // const soundCheckBox = document.getElementById('sound-check-box');
+        const volumeIcon = document.getElementById('volume-icon');
+        const essayVMark = document.getElementById('controlers-of-with-essay');
+        const controlersEssayChapterBox = document.getElementById('controlers-of-chapter-essay');
+        const controlersEssaySpan = document.getElementById('controlers-of-with-essay-span');
+
+        const resetAll = () => {
+            clearInterval(intervalTimer);
+            toggleDisableChangesWhileClockRuning()
+            currentChapter = 0
+            wholeTime = chaptersBySeconds[currentChapter]
+            changeChapterDisplayedInText()
+            toggleDisplayChapterInTextOrEssay(withEssay)
+            isStarted = false
+            isPaused = false
+            pauseButtonText.textContent = 'התחל'
+            pauseButtonIcon.textContent = 'play_arrow'
+            endButton.setAttribute("disabled", "true")
+            nextChapterButton.setAttribute("disabled", "true")
+            endButton.style.opacity = 0
+            nextChapterButton.style.opacity = 0
+            timeDisplayed.style.color = 'white'
+            volumeIcon.style.color = 'black'
+            volumeIcon.style.cursor = 'pointer'
+            essayVMark.style.cursor = 'pointer'
+            controlersEssaySpan.style.cursor = 'pointer'
+            changeClockTypeSpan.style.cursor = 'pointer'
+            chaptersAmmountBtn.style.cursor = 'default'
+            controlersEssayChapterBox.style.cursor = 'default'
+            timeLeft = wholeTime
+            clockType === 'ascending' ? displayTimeLeft(0) : displayTimeLeft(wholeTime);
+            fireWorksOff()
+            unableButtons()
+            finishButtonText.textContent = 'סיים'
+            finishButtonIcon.textContent = 'stop'
+        }
+
+
+        // change how many chapter will b a full test:
+        chaptersAmmountBtn.addEventListener("change", (event) => {
+            chaptersAmmount = chaptersAmmountBtn.value
+            // withEssay ? chaptersBySeconds = [60 * 30] : chaptersBySeconds = [] //final
+            withEssay ? chaptersBySeconds = [15] : chaptersBySeconds = [] //test
+            for (let i = 0; i < chaptersAmmount; i++) {
+                // chaptersBySeconds.push(20 * 60) //final
+                chaptersBySeconds.push(10) //test
+            }
+            totalChaptersInText.textContent = chaptersAmmount
+        })
+
+
+        // add or remove essay from structure:
+        essayToggleBtn.addEventListener('click', () => {
+            if (withEssay) {
+                withEssay = false
+                chaptersBySeconds.shift()
+                wholeTime = chaptersBySeconds[currentChapter]
+                displayTimeLeft(wholeTime);
+            } else {
+                withEssay = true
+                // chaptersBySeconds.unshift(60 * 30) //final
+                chaptersBySeconds.unshift(15) //test
+                wholeTime = chaptersBySeconds[currentChapter]
+                displayTimeLeft(wholeTime);
+            }
+            toggleDisplayChapterInTextOrEssay(withEssay)
+        })
+
+        // voulume test:
+        volumeIcon.addEventListener('click', () => {
+            if (!isStarted) {
+                endChapter.play()
+            }
+        })
+
+        const disableButtons = () => {
+            pauseBtn.classList.add('disabled')
+            nextChapterButton.classList.add('disabled')
+        }
+
+        const unableButtons = () => {
+            pauseBtn.classList.remove('disabled')
+            nextChapterButton.classList.remove('disabled')
+        }
+
+
+        const fireWorksBox = document.getElementById('fire-works-box')
+        const fireWorksOn = () => {
+            fireWorksBox.classList.add("pyro")
+        }
+        const fireWorksOff = () => {
+            fireWorksBox.classList.remove("pyro")
+        }
+
+
+        const toggleClockType = () => {
+            if (clockType === 'ascending') {
+                clockType = 'descending'
+                displayTimeLeft(wholeTime)
+            } else if (clockType === 'descending') {
+                clockType = 'ascending'
+                displayTimeLeft(0)
+            }
+        }
+        changeClockTypeButton.addEventListener('click', toggleClockType)
+
+        // main play descending
+        function timerDescending(seconds) { //counts time, takes seconds
+            timeLeft = seconds
+            displayTimeLeft(timeLeft)
+            intervalTimer = setInterval(function () {
+                timeLeft--
+                if (timeLeft === 5) { // 5 mins to end of chapter           //test
+                    // if (timeLeft === 300) { // 5 mins to end of chapter           //final
+                    fiveMinsToEndChapter.play()
+                } else if (timeLeft === 0 && chaptersBySeconds[currentChapter + 1]) {
+                    endChapter.play()
+                } else if (timeLeft < 0) { //chapter done  
+                    currentChapter++
+                    wholeTime = chaptersBySeconds[currentChapter]
+                    if (wholeTime) { //check if there is another chapter or if all test done
+                        endChapter.play()
+                        if (timeLeft === -1) {
+                            changeChapterDisplayedInText()
+                        }
+                        displayTimeLeft(wholeTime);
+                        clearInterval(intervalTimer);
+                        timerDescending(wholeTime)
+                        return
+                    } else { //test done + reset
+                        endTestSound.play()
+                        fireWorksOn()
+                        // alert('congrats done')
+                        clearInterval(intervalTimer)
+                        disableButtons()
+                        finishButtonText.textContent = 'רענן'
+                        finishButtonIcon.textContent = 'refresh'
+                        // resetAll()
+                        return
+                    }
+                }
+                if (isNaN(timeLeft) || isNaN(seconds)) { //against is NaN bug
+                    alert('נתקלנו בבעיה, אנא צור קשר עם הנלהלת האתר ולחץ רענן')
+                    location.reload();
+                }
+                displayTimeLeft(timeLeft);
+            }, 1000);
+        }
+
+        //main play ascending
+        function timerAscending() { //counts time, takes seconds
+            timeLeft = 0
+            displayTimeLeft(timeLeft)
+            intervalTimer = setInterval(function () {
+                timeLeft++
+                if (timeLeft === wholeTime - 5) { // 5 mins to end of chapter           //test
+                    // if (timeLeft === wholeTime - 300) { // 5 mins to end of chapter           //final
+                    fiveMinsToEndChapter.play()
+                } else if (timeLeft === wholeTime && chaptersBySeconds[currentChapter + 1]) {
+                    endChapter.play()
+                } else if (timeLeft > wholeTime) { //chapter done  
+                    currentChapter++
+                    wholeTime = chaptersBySeconds[currentChapter]
+                    if (wholeTime) { //check if there is another chapter or if all test done
+                        endChapter.play()
+                        if (timeLeft === wholeTime + 1) {
+                            changeChapterDisplayedInText()
+                        }
+                        displayTimeLeft(wholeTime);
+                        clearInterval(intervalTimer);
+                        timerAscending()
+                        // timer(wholeTime)
+                        return
+                    } else { //test done + reset
+                        endTestSound.play()
+                        fireWorksOn()
+                        // alert('congrats done')
+                        clearInterval(intervalTimer)
+                        disableButtons()
+                        finishButtonText.textContent = 'רענן'
+                        finishButtonIcon.textContent = 'refresh'
+                        // resetAll()
+                        return
+                    }
+                }
+                if (isNaN(timeLeft)) { //against is NaN bug
+                    alert('נתקלנו בבעיה, אנא צור קשר עם הנלהלת האתר ולחץ רענן')
+                    location.reload();
+                }
+
+                displayTimeLeft(timeLeft);
+
+            }, 1000);
+        }
+
+        //pause feature
+        function pauseTimer(event) {
+            if (isStarted === false) { //play
+                toggleDisableChangesWhileClockRuning()
+                clockType === 'ascending' ? timerAscending() : timerDescending(wholeTime)
+                isStarted = true;
+                pauseButtonText.textContent = 'השהה'
+                pauseButtonIcon.textContent = 'pause'
+                endButton.disabled = !endButton.disabled;
+                endButton.removeAttribute("disabled")
+                nextChapterButton.removeAttribute("disabled")
+                nextChapterButton.style.opacity = 1
+                endButton.style.opacity = 1
+                controlersEssayChapterBox.style.cursor = 'not-allowed'
+            } else if (isPaused) { //continue  
+                pauseButtonText.textContent = 'השהה'
+                pauseButtonIcon.textContent = 'pause'
+                if (clockType === 'descending') {
+                    if (timeLeft >= 0) {
+                        timerDescending(timeLeft);
+                    } else {
+                        clearInterval(intervalTimer);
+                        timerDescending(wholeTime)
+                    }
+                } else {
+                    timerAscending()
+                }
+                isPaused = !isPaused
+                timeDisplayed.style.color = 'white'
+            } else { //pause
+                pauseButtonText.textContent = 'המשך'
+                pauseButtonIcon.textContent = 'play_arrow'
+                clearInterval(intervalTimer);
+                isPaused = !isPaused
+                timeDisplayed.style.color = '#ff5e57'
+            }
+        }
+
+        //initial display time
+        clockType === 'ascending' ? displayTimeLeft(0) : displayTimeLeft(wholeTime);
+
+        //start clock btn
+        pauseBtn.addEventListener('click', pauseTimer);
+        //spacebar or enter clicks
+        document.body.onkeyup = function (e) {
+            if (e.keyCode == 32 || e.keyCode == 13) {
+                pauseTimer()
+            }
+        };
+    </Script>
+    <!-- <script src="./main.js"></script> -->
+</body>
+
+</html>
