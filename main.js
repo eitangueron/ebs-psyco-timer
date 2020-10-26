@@ -98,7 +98,7 @@ endButton.addEventListener('click', () => {
     if (sure) {
         resetAll()
     } else {
-        if(!isPaused){
+        if (!isPaused) {
             clockType === 'ascending' ? timerAscending(timeLeft) : timerDescending(timeLeft)
         }
     }
@@ -108,10 +108,10 @@ endButton.addEventListener('click', () => {
 const nextChapterButton = document.getElementById('next-chapter-button');
 
 const advanceToNextChapter = () => {
-    if (isStarted && chaptersBySeconds[currentChapter+1]) {
+    if (isStarted && chaptersBySeconds[currentChapter + 1]) {
         currentChapter++
         wholeTime = chaptersBySeconds[currentChapter]
-        timeLeft = clockType === 'ascending' ? 0 :  wholeTime
+        timeLeft = clockType === 'ascending' ? 0 : wholeTime
         displayTimeLeft(timeLeft)
         changeChapterDisplayedInText()
         if (!isPaused) {
@@ -187,13 +187,14 @@ essayToggleBtn.addEventListener('click', () => {
         withEssay = false
         chaptersBySeconds.shift()
         wholeTime = chaptersBySeconds[currentChapter]
-        displayTimeLeft(wholeTime);
+        clockType === 'ascending' ? displayTimeLeft(0) : displayTimeLeft(wholeTime)
+        // displayTimeLeft(wholeTime);
     } else {
         withEssay = true
         // chaptersBySeconds.unshift(60 * 30) //final
         chaptersBySeconds.unshift(15) //test
         wholeTime = chaptersBySeconds[currentChapter]
-        displayTimeLeft(wholeTime);
+        clockType === 'ascending' ? displayTimeLeft(0) : displayTimeLeft(wholeTime)
     }
     toggleDisplayChapterInTextOrEssay(withEssay)
 })
@@ -243,7 +244,7 @@ function timerDescending(seconds) { //counts time, takes seconds
     intervalTimer = setInterval(function () {
         timeLeft--
         if (timeLeft === 5) { // 5 mins to end of chapter           //test
-            // if (timeLeft === 300) { // 5 mins to end of chapter           //final
+        // if (timeLeft === 300) { // 5 mins to end of chapter           //final
             fiveMinsToEndChapter.play()
         } else if (timeLeft === 0 && chaptersBySeconds[currentChapter + 1]) {
             endChapter.play()
@@ -288,7 +289,7 @@ function timerAscending(seconds) { //counts time, takes seconds
     intervalTimer = setInterval(function () {
         timeLeft++
         if (timeLeft === wholeTime - 5) { // 5 mins to end of chapter           //test
-            // if (timeLeft === wholeTime - 300) { // 5 mins to end of chapter           //final
+        // if (timeLeft === wholeTime - 300) { // 5 mins to end of chapter           //final
             fiveMinsToEndChapter.play()
         } else if (timeLeft === wholeTime && chaptersBySeconds[currentChapter + 1]) {
             endChapter.play()
@@ -319,9 +320,9 @@ function timerAscending(seconds) { //counts time, takes seconds
             location.reload();
         }
 
-        if(!isEnded){
+        if (!isEnded) {
             displayTimeLeft(timeLeft);
-        }  
+        }
 
     }, 1000);
 }
@@ -371,7 +372,7 @@ clockType === 'ascending' ? displayTimeLeft(0) : displayTimeLeft(wholeTime);
 pauseBtn.addEventListener('click', pauseTimer);
 //spacebar or enter clicks
 document.body.onkeyup = function (e) {
-    if ((e.keyCode == 32 && !isEnded )|| ( e.keyCode == 13 && !isEnded)) {
+    if ((e.keyCode == 32 && !isEnded) || (e.keyCode == 13 && !isEnded)) {
         pauseTimer()
     }
 }
