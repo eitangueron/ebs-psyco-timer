@@ -39,16 +39,22 @@ img {
 
 #controlers-of-chapter-essay {
   display: grid;
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
   margin-top: 6%;
   /* width: '-webkit-fill-available'; */
   width: fit-content;
   margin-right: 3%;
 }
 
-#controlers-of-with-essay {
+#controlers-of-with-essay,
+#change-clock-type-span {
   text-align: end;
   margin-right: 2%;
+}
+
+#change-clock-type-box {
+  text-align: end;
+  margin-bottom: 2%;
 }
 
 
@@ -76,13 +82,14 @@ body {
 }
 
 #chapters-ammount-span,
-#controlers-of-with-essay-span {
+#controlers-of-with-essay-span,
+#change-clock-type-span {
   font-size: 1.5rem;
   color: black;
 }
 
 #chapters-ammount-btn {
-  width: 30%;
+  width: 35%;
   justify-self: end;
   margin-right: -5%;
   height: fit-content;
@@ -131,14 +138,14 @@ option {
   justify-self: end;
   font-size: 1.5rem;
   margin: 2%;
-  /* margin-top: -2%; */
+  margin-top: 0%;
 }
 
 #container-for-style-controlers-chapter-essay {
   display: grid;
   justify-content: end;
   grid-template-rows: 1fr;
-  margin-top: 3%;
+  margin-top: 4%;
 }
 
 /* #controlers-of-with-essay-span::after{
@@ -149,37 +156,36 @@ option {
 @media only screen and (max-width: 762px) {
 
   #controlers-of-chapter-essay {
-      margin-top: 15%;
-      margin-right: 22.5px;
-      /* width: 100%; */
+    margin-top: 15%;
+    margin-right: 22.5px;
   }
 
   h1 {
-      font-size: 6rem;
-      padding-right: 5%;
-      padding-left: 5%;
-  }
-
-  #chapters-ammount-btn{
-      width: 40%;
+    font-size: 6rem;
+    padding-right: 5%;
+    padding-left: 5%;
   }
 
   img {
-      width: 50%;
-      left: 25%;
+    width: 50%;
+    left: 25%;
   }
 
   #control-buttons {
-      margin-top: 6%;
+    margin-top: 6%;
   }
 
   .button {
-      width: 100px;
-      font-size: 0.8rem;
+    width: 90px;
+    font-size: 0.8rem;
   }
 
   .btn:hover {
-      background-color: #0a1d2e;
+    background-color: #0a1d2e;
+  }
+
+  #container-for-style-controlers-chapter-essay{
+    margin-top: -1%;
   }
 
 }

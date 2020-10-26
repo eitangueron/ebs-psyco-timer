@@ -10,6 +10,9 @@ let chaptersBySeconds = [15, 10, 10, 10, 10, 10, 10, 10, 10] //test
 let withEssay = true
 let currentChapter = 0
 let wholeTime = chaptersBySeconds[currentChapter]; // manage this to set the whole time 
+let clockType = 'ascending'
+let isEnded = false
+// const clockType = 'descending'
 
 
 function displayTimeLeft(timeLeft) { //displays time on the input 
@@ -45,6 +48,8 @@ const essayToggleBtn = document.getElementById('with-essay-toggle-btn');
 const totalChaptersInText = document.getElementById('total-chapters');
 const currentChapterInTextDisplayed = document.getElementById('current-chapter-in-text');
 const essayChapterInTextDisplayed = document.getElementById('essay-chapter-in-text');
+const changeClockTypeButton = document.getElementById('change-clock-type-btn');
+const changeClockTypeSpan = document.getElementById('change-clock-type-span');
 
 // toggles between which p tag to display with numbers chapters or essay one
 const toggleDisplayChapterInTextOrEssay = (showEssay) => {
@@ -60,12 +65,14 @@ const toggleDisplayChapterInTextOrEssay = (showEssay) => {
 //able/disable all changes while clock running
 const toggleDisableChangesWhileClockRuning = () => {
     chaptersAmmountBtn.disabled = !chaptersAmmountBtn.disabled;
+    changeClockTypeButton.disabled = !changeClockTypeButton.disabled;
     essayToggleBtn.disabled = !essayToggleBtn.disabled;
     volumeIcon.style.color = '#949494'
     volumeIcon.style.cursor = 'not-allowed'
     essayVMark.style.cursor = 'not-allowed'
     controlersEssaySpan.style.cursor = 'not-allowed'
     chaptersAmmountBtn.style.cursor = 'not-allowed'
+    changeClockTypeSpan.style.cursor = 'not-allowed'
 }
 
 //changes what current chapter are we in that is displayed in text 
@@ -86,13 +93,14 @@ const changeChapterDisplayedInText = () => {
 const endButton = document.getElementById('end-button');
 endButton.addEventListener('click', () => {
     clearInterval(intervalTimer);
-    isPaused = !isPaused
+    // isPaused = !isPaused
     let sure = confirm('האם אתה בטוח שברצונך לסיים?')
     if (sure) {
         resetAll()
     } else {
-        timer(timeLeft);
-        isPaused = !isPaused
+        if (!isPaused) {
+            clockType === 'ascending' ? timerAscending(timeLeft) : timerDescending(timeLeft)
+        }
     }
 })
 
@@ -100,21 +108,16 @@ endButton.addEventListener('click', () => {
 const nextChapterButton = document.getElementById('next-chapter-button');
 
 const advanceToNextChapter = () => {
-    if (isStarted) {
+    if (isStarted && chaptersBySeconds[currentChapter + 1]) {
         currentChapter++
         wholeTime = chaptersBySeconds[currentChapter]
-        if (wholeTime) {
-            changeChapterDisplayedInText()
-            displayTimeLeft(wholeTime);
-            let remainTime = Date.now() + (wholeTime * 1000);
-            timeLeft = Math.round((remainTime - Date.now()) / 1000);
-
-            if (!isPaused) {
-                clearInterval(intervalTimer);
-                timer(wholeTime)
-            }
+        timeLeft = clockType === 'ascending' ? 0 : wholeTime
+        displayTimeLeft(timeLeft)
+        changeChapterDisplayedInText()
+        if (!isPaused) {
+            clearInterval(intervalTimer);
+            clockType === 'ascending' ? timerAscending(0) : timerDescending(wholeTime)
         }
-
     }
 }
 
@@ -152,14 +155,16 @@ const resetAll = () => {
     volumeIcon.style.cursor = 'pointer'
     essayVMark.style.cursor = 'pointer'
     controlersEssaySpan.style.cursor = 'pointer'
+    changeClockTypeSpan.style.cursor = 'pointer'
     chaptersAmmountBtn.style.cursor = 'default'
     controlersEssayChapterBox.style.cursor = 'default'
     timeLeft = wholeTime
-    displayTimeLeft(wholeTime);
+    clockType === 'ascending' ? displayTimeLeft(0) : displayTimeLeft(wholeTime);
     fireWorksOff()
-    unableButtons()
+    unableMainButtons()
     finishButtonText.textContent = 'סיים'
     finishButtonIcon.textContent = 'stop'
+    isEnded = false
 }
 
 
@@ -182,13 +187,14 @@ essayToggleBtn.addEventListener('click', () => {
         withEssay = false
         chaptersBySeconds.shift()
         wholeTime = chaptersBySeconds[currentChapter]
-        displayTimeLeft(wholeTime);
+        clockType === 'ascending' ? displayTimeLeft(0) : displayTimeLeft(wholeTime)
+        // displayTimeLeft(wholeTime);
     } else {
         withEssay = true
         // chaptersBySeconds.unshift(60 * 30) //final
         chaptersBySeconds.unshift(15) //test
         wholeTime = chaptersBySeconds[currentChapter]
-        displayTimeLeft(wholeTime);
+        clockType === 'ascending' ? displayTimeLeft(0) : displayTimeLeft(wholeTime)
     }
     toggleDisplayChapterInTextOrEssay(withEssay)
 })
@@ -200,17 +206,17 @@ volumeIcon.addEventListener('click', () => {
     }
 })
 
-const disableButtons = () => {
+const disableMainButtons = () => {
     pauseBtn.classList.add('disabled')
     nextChapterButton.classList.add('disabled')
 }
 
-const unableButtons = () => {
+const unableMainButtons = () => {
     pauseBtn.classList.remove('disabled')
     nextChapterButton.classList.remove('disabled')
 }
 
-
+//fireWorks :
 const fireWorksBox = document.getElementById('fire-works-box')
 const fireWorksOn = () => {
     fireWorksBox.classList.add("pyro")
@@ -219,19 +225,26 @@ const fireWorksOff = () => {
     fireWorksBox.classList.remove("pyro")
 }
 
-//main play
-function timer(seconds) { //counts time, takes seconds
-    // let remainTime = Date.now() + (seconds * 1000);
-    // let remainTime = seconds
+
+const toggleClockType = () => {
+    if (clockType === 'ascending') {
+        clockType = 'descending'
+        displayTimeLeft(wholeTime)
+    } else if (clockType === 'descending') {
+        clockType = 'ascending'
+        displayTimeLeft(0)
+    }
+}
+changeClockTypeButton.addEventListener('click', toggleClockType)
+
+// main play descending
+function timerDescending(seconds) { //counts time, takes seconds
     timeLeft = seconds
-    displayTimeLeft(seconds);
+    displayTimeLeft(timeLeft)
     intervalTimer = setInterval(function () {
-        timeLeft = timeLeft - 1
-        // timeLeft = Math.round((remainTime - Date.now()) / 1000);
-
-
-        // if (timeLeft === 5) { // 5 mins to end of chapter           //test
-        if (timeLeft === 300) { // 5 mins to end of chapter           //final
+        timeLeft--
+        if (timeLeft === 5) { // 5 mins to end of chapter           //test
+        // if (timeLeft === 300) { // 5 mins to end of chapter           //final
             fiveMinsToEndChapter.play()
         } else if (timeLeft === 0 && chaptersBySeconds[currentChapter + 1]) {
             endChapter.play()
@@ -245,17 +258,19 @@ function timer(seconds) { //counts time, takes seconds
                 }
                 displayTimeLeft(wholeTime);
                 clearInterval(intervalTimer);
-                timer(wholeTime)
+                timerDescending(wholeTime)
                 return
-            } else { //test done + reset
+            } else { //test done 
                 endTestSound.play()
                 fireWorksOn()
-                // alert('congrats done')
                 clearInterval(intervalTimer)
-                disableButtons()
+                disableMainButtons()
                 finishButtonText.textContent = 'רענן'
                 finishButtonIcon.textContent = 'refresh'
-                // resetAll()
+                isEnded = true
+                // setTimeout( () => {
+                //     alert('כל הכבוד!')
+                //   }, 2000);
                 return
             }
         }
@@ -263,8 +278,51 @@ function timer(seconds) { //counts time, takes seconds
             alert('נתקלנו בבעיה, אנא צור קשר עם הנלהלת האתר ולחץ רענן')
             location.reload();
         }
-
         displayTimeLeft(timeLeft);
+    }, 1000);
+}
+
+//main play ascending
+function timerAscending(seconds) { //counts time, takes seconds
+    timeLeft = seconds
+    displayTimeLeft(timeLeft)
+    intervalTimer = setInterval(function () {
+        timeLeft++
+        if (timeLeft === wholeTime - 5) { // 5 mins to end of chapter           //test
+        // if (timeLeft === wholeTime - 300) { // 5 mins to end of chapter           //final
+            fiveMinsToEndChapter.play()
+        } else if (timeLeft === wholeTime && chaptersBySeconds[currentChapter + 1]) {
+            endChapter.play()
+        } else if (timeLeft > wholeTime) { //chapter done  
+            currentChapter++
+            wholeTime = chaptersBySeconds[currentChapter]
+            if (wholeTime) { //check if there is another chapter or if all test done
+                endChapter.play()
+                if (timeLeft === wholeTime + 1) {
+                    changeChapterDisplayedInText()
+                }
+                displayTimeLeft(wholeTime);
+                clearInterval(intervalTimer);
+                timerAscending(0)
+                return
+            } else { //test done 
+                endTestSound.play()
+                fireWorksOn()
+                clearInterval(intervalTimer)
+                disableMainButtons()
+                finishButtonText.textContent = 'רענן'
+                finishButtonIcon.textContent = 'refresh'
+                isEnded = true
+            }
+        }
+        if (isNaN(timeLeft)) { //against is NaN bug
+            alert('נתקלנו בבעיה, אנא צור קשר עם הנלהלת האתר ולחץ רענן')
+            location.reload();
+        }
+
+        if (!isEnded) {
+            displayTimeLeft(timeLeft);
+        }
 
     }, 1000);
 }
@@ -273,7 +331,7 @@ function timer(seconds) { //counts time, takes seconds
 function pauseTimer(event) {
     if (isStarted === false) { //play
         toggleDisableChangesWhileClockRuning()
-        timer(wholeTime);
+        clockType === 'ascending' ? timerAscending(0) : timerDescending(wholeTime)
         isStarted = true;
         pauseButtonText.textContent = 'השהה'
         pauseButtonIcon.textContent = 'pause'
@@ -286,11 +344,15 @@ function pauseTimer(event) {
     } else if (isPaused) { //continue  
         pauseButtonText.textContent = 'השהה'
         pauseButtonIcon.textContent = 'pause'
-        if (timeLeft >= 0) {
-            timer(timeLeft);
+        if (clockType === 'descending') {
+            if (timeLeft >= 0) {
+                timerDescending(timeLeft);
+            } else {
+                clearInterval(intervalTimer);
+                timerDescending(wholeTime)
+            }
         } else {
-            clearInterval(intervalTimer);
-            timer(wholeTime)
+            timerAscending(timeLeft)
         }
         isPaused = !isPaused
         timeDisplayed.style.color = 'white'
@@ -303,13 +365,14 @@ function pauseTimer(event) {
     }
 }
 
+//initial display time
+clockType === 'ascending' ? displayTimeLeft(0) : displayTimeLeft(wholeTime);
 
-displayTimeLeft(wholeTime);
 //start clock btn
 pauseBtn.addEventListener('click', pauseTimer);
 //spacebar or enter clicks
 document.body.onkeyup = function (e) {
-    if (e.keyCode == 32 || e.keyCode == 13) {
+    if ((e.keyCode == 32 && !isEnded) || (e.keyCode == 13 && !isEnded)) {
         pauseTimer()
     }
-};
+}
